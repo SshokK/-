@@ -35,7 +35,7 @@ function cissoid() {
 	xC = 2.5 * canvas.width / 5;
 	yC = canvas.height / 2;
 
-	drawAxes(context, 3, 3, 0.9, "Black");
+	drawAxesWithItsInitialState(context, 3, 3, 0.9, "Black");
 	drawCissoid(canvas, context);
 
 
@@ -52,13 +52,13 @@ function drawCissoid(elem, ctx) {
 function drawUI(canvas, context) {
 	const guiContainer = document.getElementById('gui_container');
 	const controller = new function() {
-		this.offsetX = OFFSET_X;
-		this.offsetY = OFFSET_Y;
+		this.Отступ_X = OFFSET_X;
+		this.Отступ_Y = OFFSET_Y;
 
-		this.scaleX = CISSOID_SCALE_X;
-		this.scaleY = CISSOID_SCALE_Y;
+		this.Масштаб_X = CISSOID_SCALE_X;
+		this.Масштаб_Y = CISSOID_SCALE_Y;
 
-		this.rotation = PREV_ROTATE;
+		this.Угол_вращения = PREV_ROTATE;
 		this.a = DEFAULT_A;
 	}();
 	const gui = new dat.GUI({ autoPlace: false });
@@ -72,55 +72,55 @@ function drawUI(canvas, context) {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		DEFAULT_A = (controller.a);
 
-		drawAxes(context, 3, 3, 0.9, "Black");
+		drawAxesWithItsInitialState(context, 3, 3, 0.9, "Black");
 		drawCissoid(canvas, context);
 	});
 
-	folder.add(controller, 'offsetX', -5, 5).onChange(() => {
+	folder.add(controller, 'Отступ_X', -5, 5).onChange(() => {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		OFFSET_X = (controller.offsetX);
+		OFFSET_X = (controller.Отступ_X);
 
-		drawAxes(context, 3, 3, 0.9, "Black");
+		drawAxesWithItsInitialState(context, 3, 3, 0.9, "Black", OFFSET_X, OFFSET_Y);
 		drawCissoid(canvas, context);
 	});
 
-	folder.add(controller, 'offsetY', -5, 5).onChange(() => {
+	folder.add(controller, 'Отступ_Y', -5, 5).onChange(() => {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		OFFSET_Y = (controller.offsetY);
+		OFFSET_Y = (controller.Отступ_Y);
 
-		drawAxes(context, 3, 3, 0.9, "Black");
+		drawAxesWithItsInitialState(context, 3 + OFFSET_X, 3 + OFFSET_Y, 0.9, "Black", OFFSET_X, OFFSET_Y);
 		drawCissoid(canvas, context);
 	});
 
-	folder.add(controller, 'scaleX', 1, 5).onChange(() => {
+	folder.add(controller, 'Масштаб_X', -5, 5).onChange(() => {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		CISSOID_SCALE_X = (controller.scaleX);
+		CISSOID_SCALE_X = (controller.Масштаб_X);
 
-		drawAxes(context, 3, 3, 0.9, "Black");
+		drawAxesWithItsInitialState(context, 3, 3, 0.9, "Black");
 		drawCissoid(canvas, context);
 	});
 
-	folder.add(controller, 'scaleY', 1, 5).onChange(() => {
+	folder.add(controller, 'Масштаб_Y', -5, 5).onChange(() => {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		CISSOID_SCALE_Y = (controller.scaleY);
+		CISSOID_SCALE_Y = (controller.Масштаб_Y);
 
-		drawAxes(context, 3, 3, 0.9, "Black");
+		drawAxesWithItsInitialState(context, 3, 3, 0.9, "Black");
 		drawCissoid(canvas, context);
 	});
 
-	folder.add(controller, 'rotation', 0, 360).onChange(() => {
+	folder.add(controller, 'Угол_вращения', 0, 360).onChange(() => {
 		context.rotate(-PREV_ROTATE * Math.PI / 180);
 		context.clearRect(0, 0, canvas.width, canvas.height);
 
 		context.save();
 
 		context.translate(canvas.width / 2, canvas.height / 2);
-		context.rotate(controller.rotation * Math.PI / 180);
+		context.rotate(controller.Угол_вращения * Math.PI / 180);
 		context.translate(-(canvas.width / 2), -(canvas.height / 2));
 
-		PREV_ROTATE = controller.rotation
+		PREV_ROTATE = controller.Угол_вращения
 
-		drawAxes(context, 3, 3, 0.9, "Black", AXIS_ROTATION_ANGLE);
+		drawAxesWithItsInitialState(context, 3, 3, 0.9, "Black", AXIS_ROTATION_ANGLE);
 		drawCissoid(canvas, context);
 	});
 }
@@ -183,4 +183,12 @@ function getCissoidX({ a, t }) {
 
 function getCissoidY({ a, t }) {
 	return ((a * Math.pow(t, 3)) / (1 + Math.pow(t, 2))) * CISSOID_SCALE_Y;
+}
+
+function drawAxesWithItsInitialState(context) {
+	drawAxes(context, 3, 3, 0.9, "Black");
+
+	if (OFFSET_X || OFFSET_Y) {
+		drawAxes(context, 3, 3, 0.9, "Blue", true);
+	}
 }

@@ -21,8 +21,10 @@ function fy(val) {
 
 // рисует оси 
 // dx и dy - размеры осей по X и Y
-function drawAxes(ctx, dx, dy, width, color, rotationAngle)
-{
+function drawAxes(ctx, _, __, width, color, withoutOffset = false) {
+	const dx = 20;
+	const dy = 20;
+
 	ctx.save();
 	
 	if (color == "R") // красный
@@ -45,29 +47,32 @@ function drawAxes(ctx, dx, dy, width, color, rotationAngle)
 	ctx.lineWidth = width;
 	ctx.beginPath();
 
+	const offset_y = withoutOffset ? 0 : OFFSET_Y;
+	const offset_x = withoutOffset ? 0 : OFFSET_X;
+
 	for (let i = -dx; i <= dx; i++) {
-		drawDot(ctx, new Point2D(i, 0), 5, 'black')
+		drawDot(ctx, new Point2D(i, offset_y), 5, 'black')
 	}
 
-	ctx.moveTo(fx(-dx), fy(0));
-	ctx.lineTo(fx(dx), fy(0));
+	ctx.moveTo(fx(-dx + offset_x), fy(offset_y));
+	ctx.lineTo(fx(dx + offset_x), fy(offset_y));
 	ctx.stroke();
 	
 	ctx.beginPath();
-	ctx.moveTo(fx(0), fy(-dy));
-	ctx.lineTo(fx(0), fy(dy));
+	ctx.moveTo(fx(offset_x), fy(-dy + offset_y));
+	ctx.lineTo(fx(offset_x), fy(dy + offset_y));
 	ctx.stroke();
 
 	for (let i = -dy; i <= dy; i++) {
-		drawDot(ctx, new Point2D(0, i), 5, 'black')
+		drawDot(ctx, new Point2D(offset_x, i), 5, 'black')
 	}
 
 	ctx.restore();
 
-	drawDot(ctx, new Point2D(0, 0), 5, 'black')
-	drawText(ctx, 'O', new Point2D(-0.1, -0.1))
-	drawText(ctx, 'X', new Point2D(dx, 0.1))
-	drawText(ctx, 'Y', new Point2D(0.1, dy))
+	drawDot(ctx, new Point2D(offset_x, offset_y), 5, 'black')
+	drawText(ctx, 'O', new Point2D(-0.1 + offset_x, -0.1 + offset_y))
+	drawText(ctx, 'X', new Point2D(dx + offset_x, 0.1 + offset_y))
+	drawText(ctx, 'Y', new Point2D(0.1 + offset_x, dy + offset_y))
 }
 
 // точка в виде квадрата
@@ -97,7 +102,7 @@ function rsp(ctx, point, size, color)
 
 // точка в виде окружности
 // size - размер точки в пикселах
-function drawDot(ctx, point, size, color)
+function drawDot(ctx, point, size, color = 'Blue')
 {
 	ctx.save();
 	if (color == "R")
