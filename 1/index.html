@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Лабораторная работа 1</title>
+	<link rel="stylesheet" type="text/css" href="../libs/style.css">
+	<script type = "text/javascript" src = "../libs/dat.gui.js"></script>
+	<script src="../libs/WebGeometry.js"></script>
+	<script src="../libs/canvas2D.js"></script>
+	<script src="cissoid.js"></script>
+	
+	<style>
+		div.out
+		{
+			margin: 0 auto;
+			position: relative;
+			width: 670px;
+			height: 312px;
+			left: 5px;
+		}
+	
+		div.in
+		{
+			position: absolute;
+			left: 405px;
+			top: 5px;			
+			height: 900px;
+			width: 255px;
+		}
+
+		div.canvas
+		{
+			position: absolute;
+			left: 5px;
+			top: 5px;			
+			height: 700px;
+			width: 1920px;
+		}
+		
+		div.gui
+		{
+			position: absolute;
+			left: 5px;
+			top: 5px;
+		}	
+	</style>
+
+<script>
+	function initiate() {
+		cissoid();
+	}
+	
+addEventListener("load", initiate);
+
+</script>
+
+</head>
+
+<body>
+
+<p>
+<div class="out">  
+	<div class="canvas">
+		<canvas id="canvas" width="1600" height="700"></canvas>
+	</div>
+	<div class="in">
+		<div class="gui" id="gui_container4" ></div> 
+	</div>	
+</div>
+</p>
+
+</body>
+</html>
