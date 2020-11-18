@@ -7,7 +7,7 @@ const DEFAULT_A = 1;
 const OFFSET_X = 0;
 const OFFSET_Y = 0;
 
-const SCALE = 110;
+const SCALE = 150;
 
 // 1, 2, ...etc
 const CISSOID_SCALE_X = 1;

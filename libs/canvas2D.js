@@ -21,7 +21,7 @@ function fy(val) {
 
 // рисует оси 
 // dx и dy - размеры осей по X и Y
-function drawAxes(ctx, dx, dy, width, color)
+function drawAxes(ctx, dx, dy, width, color, rotationAngle)
 {
 	ctx.save();
 	
@@ -44,7 +44,11 @@ function drawAxes(ctx, dx, dy, width, color)
 	
 	ctx.lineWidth = width;
 	ctx.beginPath();
-	console.log(fx(-dx), fy(0))
+
+	for (let i = -dx; i <= dx; i++) {
+		drawDot(ctx, new Point2D(i, 0), 5, 'black')
+	}
+
 	ctx.moveTo(fx(-dx), fy(0));
 	ctx.lineTo(fx(dx), fy(0));
 	ctx.stroke();
@@ -53,6 +57,11 @@ function drawAxes(ctx, dx, dy, width, color)
 	ctx.moveTo(fx(0), fy(-dy));
 	ctx.lineTo(fx(0), fy(dy));
 	ctx.stroke();
+
+	for (let i = -dy; i <= dy; i++) {
+		drawDot(ctx, new Point2D(0, i), 5, 'black')
+	}
+
 	ctx.restore();
 
 	drawDot(ctx, new Point2D(0, 0), 5, 'black')
